@@ -7,7 +7,7 @@ import {
   StyledFormWrapper,
 } from "../styled";
 import { Grid } from "@mui/material";
-import { dbAuth } from "../../firebase";
+import { auth } from "../../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -16,12 +16,11 @@ import { useContext, useState } from "react";
 import LogInContext from "../components/context/LogInContext";
 import { useNavigate } from "react-router-dom";
 
-const Home = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(LogInContext);
+const LogIn = () => {
+  const { setIsLoggedIn } = useContext(LogInContext);
   const navigate = useNavigate();
   const [type, setType] = useState(false);
   const [error, setError] = useState(null);
-  const [errorMsg, setErrorMsg] = useState("");
 
   const {
     register,
@@ -39,7 +38,7 @@ const Home = () => {
     const { email, password } = data;
     console.log(type, "type");
     if (!type) {
-      createUserWithEmailAndPassword(dbAuth, email, password)
+      createUserWithEmailAndPassword(auth, email, password)
         .then((data) => {
           setIsLoggedIn(true);
           navigate("/cats");
@@ -50,7 +49,7 @@ const Home = () => {
           setError(true);
         });
     } else {
-      signInWithEmailAndPassword(dbAuth, email, password)
+      signInWithEmailAndPassword(auth, email, password)
         .then((data) => {
           {
             setIsLoggedIn(true);
@@ -129,4 +128,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default LogIn;

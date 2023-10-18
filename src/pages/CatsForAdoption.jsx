@@ -1,34 +1,30 @@
 import { useContext, useEffect, useState } from "react";
-import { getCats } from "../helpers/CatsHelpers";
+import { getCats, getCatImg } from "../helpers/CatsHelpers";
 import { StyledCards, StyledHomeTitle } from "../styled";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import Loading from "../components/Loading";
-import LogInContext from "../components/context/LogInContext";
 
 const CatsForAdoption = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(LogInContext);
   const navigate = useNavigate();
   const [cats, setCats] = useState(null);
-  // const { data } = useContext(CatsContext);
-  // console.log(data);
 
-  console.log(isLoggedIn);
   useEffect(() => {
     const fetchData = async () => {
       const res = await getCats();
+      console.log(res, "res");
       setCats(res);
     };
+
     fetchData();
   }, []);
 
+  useEffect(() => {
+    console.log(cats, "cats");
+  }, [cats]);
+
   const handleOnClick = (id) => {
-    console.log(isLoggedIn);
-    if (!isLoggedIn) {
-      navigate("/home");
-    } else {
-      navigate(`/cats/${id}`);
-    }
+    navigate(`/cats/${id}`);
   };
 
   return (
@@ -46,6 +42,7 @@ const CatsForAdoption = () => {
               subtitle={cat.colors}
               description={cat.description}
               location={cat.location}
+              img={cat.imgURL}
             />
           ))
         ) : (

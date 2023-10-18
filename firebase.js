@@ -1,6 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import {
+  browserSessionPersistence,
+  getAuth,
+  onAuthStateChanged,
+  setPersistence,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 // TODO: Replace the following with your app's Firebase project configuration
 const firebaseConfig = {
@@ -14,5 +20,18 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const dbAuth = getAuth(app);
+export const auth = getAuth(app);
+console.log(auth, "auth");
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+
+//   }
+// })
+setPersistence(auth, browserSessionPersistence)
+  .then(() => {
+    return signInWithEmailAndPassword(auth, email, password);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 export const db = getFirestore(app);

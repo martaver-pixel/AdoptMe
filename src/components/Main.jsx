@@ -6,12 +6,12 @@ import { StyledMain } from "../styled";
 import CatDetail from "../pages/CatDetail";
 import AdoptionForm from "./AdoptionForm";
 import CatsForAdoption from "../pages/CatsForAdoption";
-import Home from "../pages/Home";
+import LogIn from "../pages/Login";
 const Main = () => {
   return (
     <StyledMain>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<LogIn />} />
         <Route path="/cats" element={<CatsForAdoption />} />
         <Route path={`/cats/:id`} element={<CatDetail />} />
         <Route path={`adoption/:id`} element={<AdoptionForm />} />

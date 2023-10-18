@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { getCat } from "../helpers/CatsHelpers";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
@@ -9,8 +9,10 @@ import {
 } from "../styled";
 import Modal from "../components/Modal";
 import AdoptionForm from "../components/AdoptionForm";
+import LogInContext from "../components/context/LogInContext";
 
 const CatDetail = () => {
+  const { isLoggedIn, setIsLoggedIn } = useContext(LogInContext);
   const [isOpen, setIsOpen] = useState(false);
   const [cat, setCat] = useState(null);
   const navigate = useNavigate();
@@ -32,15 +34,19 @@ const CatDetail = () => {
     navigate(-1);
   };
 
+  const isLoggedCheck = () => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    } else {
+      setIsOpen(true);
+    }
+  };
+
   return (
     <StyledCatDetail id="cat-detail">
       {cat ? (
         <StyledCatCard>
-          <img
-            src={`/${cat.name.toLowerCase()}.jpg`}
-            alt={`${cat.name}`}
-            height="400px"
-          />
+          <img src={cat.imgURL} alt={`${cat.name}`} height="400px" />
           <h2>Hi! I&apos;m {cat.name}</h2>
           <p>
             {cat.description} and my fur is {cat.colors}
@@ -54,10 +60,7 @@ const CatDetail = () => {
         <StyledCatDetailButton onClick={handleOnClick}>
           &#x2190;Back
         </StyledCatDetailButton>
-        <StyledCatDetailButton
-          $important="true"
-          onClick={() => setIsOpen(true)}
-        >
+        <StyledCatDetailButton $important="true" onClick={isLoggedCheck}>
           Apply for adoption! &#127881;
         </StyledCatDetailButton>
         <Modal open={isOpen} onClose={() => setIsOpen(false)}>

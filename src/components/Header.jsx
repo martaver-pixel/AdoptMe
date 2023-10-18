@@ -15,25 +15,14 @@ const Header = () => {
           width="70px"
         />
         <StyledHeaderNav>
-          {isLoggedIn ? (
-            <StyledNavLink
-              to="/cats"
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-              }
-            >
-              Cats for adoption
-            </StyledNavLink>
-          ) : (
-            <StyledNavLink
-              to="/home"
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-              }
-            >
-              Home
-            </StyledNavLink>
-          )}
+          <StyledNavLink
+            to="/cats"
+            className={({ isActive, isPending }) =>
+              isPending ? "pending" : isActive ? "active" : ""
+            }
+          >
+            Cats for adoption
+          </StyledNavLink>
 
           <StyledNavLink
             to="adopted"
@@ -62,7 +51,7 @@ const Header = () => {
           </StyledNavLink>
           {isLoggedIn ? (
             <StyledNavLink
-              to="/home"
+              to="/login"
               onClick={() => setIsLoggedIn(false)}
               className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? "active" : ""
@@ -72,7 +61,7 @@ const Header = () => {
             </StyledNavLink>
           ) : (
             <StyledNavLink
-              to="home"
+              to="login"
               className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? "active" : ""
               }
