@@ -9,15 +9,14 @@ import {
 } from "../styled";
 import Modal from "../components/Modal";
 import AdoptionForm from "../components/AdoptionForm";
-import LogInContext from "../components/context/LogInContext";
+import AuthContext from "../components/context/AuthContext";
 
 const CatDetail = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(LogInContext);
+  const { currentUser } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [cat, setCat] = useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,7 +34,7 @@ const CatDetail = () => {
   };
 
   const isLoggedCheck = () => {
-    if (!isLoggedIn) {
+    if (!currentUser) {
       navigate("/login");
     } else {
       setIsOpen(true);

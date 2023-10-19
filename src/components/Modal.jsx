@@ -14,7 +14,7 @@ const ModalStyle = {
   backgroundColor: "#fff",
   padding: "25px",
   overflow: "auto",
-  height: "fit-content",
+  height: "auto",
   minHeight: "500px",
   display: "flex",
   justifyContent: "center",

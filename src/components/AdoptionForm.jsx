@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   StyledError,
   StyledForm,
@@ -10,8 +10,10 @@ import { useForm } from "react-hook-form";
 import Loading from "../components/Loading";
 import Grid from "@mui/material/Grid";
 import { postAdoptionForm } from "../helpers/AdoptionHelper";
+import AuthContext from "./context/AuthContext";
 
 const AdoptionForm = () => {
+  const { currentUser } = useContext(AuthContext);
   const [hasOtherPet, setHasOtherPet] = useState(false);
   const { id } = useParams();
   const [hasOwnedBefore, setHasOwnedBefore] = useState(false);
@@ -36,9 +38,14 @@ const AdoptionForm = () => {
   });
 
   const onSubmit = async (data) => {
+    console.log(data);
     setIsLoading(true);
     try {
-      const dataWithCatId = { ...data, catId: id };
+      const dataWithCatId = {
+        ...data,
+        catId: id,
+        applicationUser: currentUser.email,
+      };
       await postAdoptionForm(dataWithCatId);
       reset();
       setSuccess(true);
@@ -49,6 +56,9 @@ const AdoptionForm = () => {
     }
   };
 
+  const applicationUser = currentUser.email;
+
+  console.log(applicationUser);
   const handleHasMorePets = (newValue) => {
     setHasMorePets(newValue);
     if (!newValue) {
@@ -111,6 +121,7 @@ const AdoptionForm = () => {
                 })}
                 placeholder="luismiguel@acb.com"
               />
+
               <StyledFormValidationError>
                 {errors.email?.message}
                 {errors.email?.type === "matchPattern" && (
@@ -119,6 +130,7 @@ const AdoptionForm = () => {
               </StyledFormValidationError>
             </Grid>
           </Grid>
+
           <Grid container item spacing={1} xs={12} direction="column">
             <h3>Tell us about you:</h3>
             <h4>Have you ever owned a cat before? </h4>

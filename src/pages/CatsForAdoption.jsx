@@ -4,6 +4,7 @@ import { StyledCards, StyledHomeTitle } from "../styled";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import Loading from "../components/Loading";
+import { Grid } from "@mui/material";
 
 const CatsForAdoption = () => {
   const navigate = useNavigate();
@@ -12,16 +13,13 @@ const CatsForAdoption = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await getCats();
-      console.log(res, "res");
       setCats(res);
     };
 
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log(cats, "cats");
-  }, [cats]);
+  useEffect(() => {}, [cats]);
 
   const handleOnClick = (id) => {
     navigate(`/cats/${id}`);

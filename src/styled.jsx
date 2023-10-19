@@ -19,8 +19,9 @@ export const StyledNavLink = styled(NavLink)``;
 
 export const StyledHeaderNav = styled.nav`
   display: flex;
-  justify-content: space-around;
-  font-size: 2rem;
+  justify-content: space-between;
+  padding-right: 30px;
+  font-size: 1.5rem;
 
   ${StyledNavLink} {
     text-decoration: none;
@@ -32,7 +33,11 @@ export const StyledHeaderNav = styled.nav`
   }
 `;
 
-export const StyledMain = styled.main``;
+export const StyledMain = styled.main`
+  display: flex;
+  justify-content: center;
+  margin: 3rem 5rem;
+`;
 
 export const StyledFooter = styled.footer`
   display: flex;
@@ -46,7 +51,6 @@ export const StyledFooter = styled.footer`
 `;
 
 export const StyledHomeTitle = styled.h2`
-  margin-left: 6rem;
   text-align: left;
   font-size: 3rem;
   color: #ea7405;
@@ -57,7 +61,15 @@ export const StyledCards = styled.div`
   gap: 2rem;
   justify-items: center;
 
-  grid-template-columns: repeat(3, 1fr);
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 export const StyledCard = styled.div`

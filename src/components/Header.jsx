@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { StyledHeaderDiv, StyledHeaderNav, StyledNavLink } from "../styled";
-import LogInContext from "./context/LogInContext";
+import AuthContext from "./context/AuthContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
 
 const Header = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(LogInContext);
+  const { currentUser } = useContext(AuthContext);
   return (
     <header>
       <StyledHeaderDiv>
@@ -49,10 +51,10 @@ const Header = () => {
           >
             Contact
           </StyledNavLink>
-          {isLoggedIn ? (
+          {currentUser ? (
             <StyledNavLink
               to="/login"
-              onClick={() => setIsLoggedIn(false)}
+              onClick={() => signOut(auth)}
               className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? "active" : ""
               }
