@@ -6,12 +6,14 @@ import { auth } from "../../firebase";
 
 const Header = () => {
   const { currentUser } = useContext(AuthContext);
+
   return (
     <header>
       <StyledHeaderDiv>
+        {/* trear img del header */}
         <img
           className="header-img"
-          src="../../adoptmeHeader.jpg"
+          src="/adoptmeHeader.jpg"
           alt="Cat"
           height="70px"
           width="70px"
