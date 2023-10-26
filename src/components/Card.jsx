@@ -1,26 +1,35 @@
 /* eslint-disable react/prop-types */
-import { useContext } from "react";
+import { memo } from "react";
 import { StyledCard, Styledh4 } from "../styled";
-import ApplicationContext from "./context/ApplicationsContext";
 
-const Card = ({ id, title, location, subtitle, handleOnClick, img }) => {
-  const { applications } = useContext(ApplicationContext);
-  console.log(applications, "fkjfe");
-  return (
-    <>
-      {applications.application.catId === id ? (
-        <h2>Hola</h2>
-      ) : (
-        <StyledCard onClick={() => handleOnClick(id)}>
-          <img src={img} alt={title} height="300px" />
-          <h3>{title}</h3>
-          <h4>{subtitle}</h4>
+const Card = memo(
+  ({ id, title, location, subtitle, handleOnClick, img, isApplied }) => {
+    if (isApplied) {
+      return (
+        <>
+          <StyledCard>
+            <img src={img} alt={title} height="300px" />
+            <h3>{title}</h3>
+            <h4>You have already applied to adopt this cat!</h4>
+            <Styledh4>&#128205;{location}</Styledh4>
+          </StyledCard>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <StyledCard onClick={() => handleOnClick(id)}>
+            <img src={img} alt={title} height="300px" />
+            <h3>{title}</h3>
+            <h4>{subtitle}</h4>
+            <Styledh4>&#128205;{location}</Styledh4>
+          </StyledCard>
+        </>
+      );
+    }
+  }
+);
 
-          <Styledh4>&#128205;{location}</Styledh4>
-        </StyledCard>
-      )}
-    </>
-  );
-};
+Card.displayName = "Card";
 
 export default Card;

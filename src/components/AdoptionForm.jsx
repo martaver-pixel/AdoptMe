@@ -30,7 +30,7 @@ const AdoptionForm = () => {
   } = useForm({
     defaultValues: {
       name: "",
-      email: "",
+
       experience: "",
       pets: [],
       otherPets: null,
@@ -105,36 +105,13 @@ const AdoptionForm = () => {
                 )}
               </StyledFormValidationError>
             </Grid>
-            <Grid item xs={6}>
-              <label htmlFor="email">Email:</label>
-              <input
-                type="email"
-                {...register("email", {
-                  required: "Email is required",
-                  validate: {
-                    matchPattern: (v) =>
-                      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-                        v
-                      ),
-                  },
-                })}
-                placeholder="luismiguel@acb.com"
-              />
-
-              <StyledFormValidationError>
-                {errors.email?.message}
-                {errors.email?.type === "matchPattern" && (
-                  <>Please enter a valid email</>
-                )}
-              </StyledFormValidationError>
-            </Grid>
           </Grid>
 
           <Grid container item spacing={1} xs={12} direction="column">
             <h3>Tell us about you:</h3>
             <h4>Have you ever owned a cat before? </h4>
-            <Grid container item spacing={2}>
-              <Grid item>
+            <Grid container item>
+              <Grid item style={{ paddingLeft: "0px" }}>
                 <label htmlFor="yesHasOwned">
                   <input
                     type="radio"

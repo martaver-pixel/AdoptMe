@@ -5,13 +5,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import Loading from "../components/Loading";
 import { Grid } from "@mui/material";
-import ApplicationContext from "../components/context/ApplicationsContext";
+import ApplicationContext, {
+  ApplicationProvider,
+} from "../components/context/ApplicationsContext";
 
 const CatsForAdoption = () => {
   const navigate = useNavigate();
   const [cats, setCats] = useState(null);
   const { applications } = useContext(ApplicationContext);
-  console.log(applications, "fkjfe");
+  console.log(applications);
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await getCats();
@@ -41,7 +44,7 @@ const CatsForAdoption = () => {
               description={cat.description}
               location={cat.location}
               img={cat.imgURL}
-              applications={applications}
+              isApplied={applications && !!applications[cat.id]}
             />
           ))
         ) : (

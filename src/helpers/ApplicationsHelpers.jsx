@@ -23,11 +23,11 @@ export const getApplicationsByUser = async (email) => {
   try {
     const myApplications = query(colRef, where("applicationUser", "==", email));
     const querySnapshot = await getDocs(myApplications);
-    const data = [];
+    const data = {};
     for (let i = 0; i < querySnapshot.docs.length; i++) {
       const doc = querySnapshot.docs[i].data();
       const cat = await getCat(doc.catId);
-      data.push({ application: doc, cat });
+      data[doc.catId] = { application: doc, cat };
     }
 
     return data;
@@ -35,3 +35,21 @@ export const getApplicationsByUser = async (email) => {
     console.log(err);
   }
 };
+
+// export const getApplicationsByUser = async (email) => {
+//   const colRef = collection(db, "applications");
+//   try {
+//     const myApplications = query(colRef, where("applicationUser", "==", email));
+//     const querySnapshot = await getDocs(myApplications);
+//     const data = [];
+//     for (let i = 0; i < querySnapshot.docs.length; i++) {
+//       const doc = querySnapshot.docs[i].data();
+//       const cat = await getCat(doc.catId);
+//       data.push({ application: doc, cat });
+//     }
+
+//     return data;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
