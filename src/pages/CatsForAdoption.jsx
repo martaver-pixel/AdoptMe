@@ -1,15 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { getCats, getCatImg } from "../helpers/CatsHelpers";
 import { StyledCards, StyledHomeTitle } from "../styled";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import Loading from "../components/Loading";
 import { Grid } from "@mui/material";
+import ApplicationContext from "../components/context/ApplicationsContext";
 
 const CatsForAdoption = () => {
   const navigate = useNavigate();
   const [cats, setCats] = useState(null);
-
+  const { applications } = useContext(ApplicationContext);
+  console.log(applications, "fkjfe");
   useEffect(() => {
     const fetchData = async () => {
       const res = await getCats();
@@ -19,10 +21,8 @@ const CatsForAdoption = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {}, [cats]);
-
   const handleOnClick = (id) => {
-    navigate(`/cats/${id}`);
+    navigate(`/AdoptMe/cats/${id}`);
   };
 
   return (
@@ -41,6 +41,7 @@ const CatsForAdoption = () => {
               description={cat.description}
               location={cat.location}
               img={cat.imgURL}
+              applications={applications}
             />
           ))
         ) : (

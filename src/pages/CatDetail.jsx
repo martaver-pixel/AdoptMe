@@ -35,7 +35,7 @@ const CatDetail = () => {
 
   const isLoggedCheck = () => {
     if (!currentUser) {
-      navigate("/login");
+      navigate("AdoptMe/login");
     } else {
       setIsOpen(true);
     }

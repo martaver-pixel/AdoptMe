@@ -8,29 +8,30 @@ export const StyledWrapper = styled.div`
 `;
 
 export const StyledHeaderDiv = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 4.4rem;
   display: grid;
   grid-template-columns: 1fr 2fr;
   align-items: center;
-  background: #f1e6dc;
+  background: #f0e4d9ce;
   border-bottom: thin solid #f0d6bd;
   border-width: 5px;
 `;
-export const StyledNavLink = styled(NavLink)``;
+export const StyledNavLink = styled(NavLink)`
+  text-decoration: none;
+  color: #eeab6c;
+  &:hover,
+  &.active {
+    color: #ea7405;
+  }
+`;
 
 export const StyledHeaderNav = styled.nav`
   display: flex;
   justify-content: space-between;
   padding-right: 30px;
   font-size: 1.5rem;
-
-  ${StyledNavLink} {
-    text-decoration: none;
-    color: #eeab6c;
-    &:hover,
-    &.active {
-      color: #ea7405;
-    }
-  }
 `;
 
 export const StyledMain = styled.main`
@@ -274,4 +275,34 @@ export const StyledSuccess = styled.h1`
   border-radius: 20px;
   padding: 10px;
   height: fit-content;
+`;
+
+export const StytledSideBarWrapper = styled.div`
+  position: fixed;
+  top: 4.4rem;
+  right: 0;
+  bottom: 5.3rem;
+  background-color: #f0d6bdf0;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  display: inline-flex;
+  overflow: hidden;
+  display: ${(props) => (props.$isOpen ? "inline-flex" : "none")};
+  width: ${(props) => (props.$isOpen ? "50%" : "0")};
+`;
+
+export const StytledSideBarNavLinks = styled(NavLink)`
+  text-decoration: none;
+  color: #eeab6c;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover,
+  &.active {
+    color: #fff;
+    background-color: #eeab6c;
+  }
 `;

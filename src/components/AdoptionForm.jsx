@@ -9,7 +9,7 @@ import {
 import { useForm } from "react-hook-form";
 import Loading from "../components/Loading";
 import Grid from "@mui/material/Grid";
-import { postAdoptionForm } from "../helpers/AdoptionHelper";
+import { myApplication, postAdoptionForm } from "../helpers/AdoptionHelper";
 import AuthContext from "./context/AuthContext";
 
 const AdoptionForm = () => {
@@ -38,15 +38,17 @@ const AdoptionForm = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     setIsLoading(true);
+    const date = new Date();
     try {
       const dataWithCatId = {
         ...data,
         catId: id,
         applicationUser: currentUser.email,
+        dateOfApplication: date,
       };
       await postAdoptionForm(dataWithCatId);
+      await myApplication(dataWithCatId);
       reset();
       setSuccess(true);
     } catch (err) {
@@ -56,9 +58,6 @@ const AdoptionForm = () => {
     }
   };
 
-  const applicationUser = currentUser.email;
-
-  console.log(applicationUser);
   const handleHasMorePets = (newValue) => {
     setHasMorePets(newValue);
     if (!newValue) {

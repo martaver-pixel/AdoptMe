@@ -28,6 +28,11 @@ export const getCat = async (id) => {
   return catWithImg;
 };
 
+export const getCatsById = (ids) => {
+  const catsPromises = ids.map((id) => getCat(id));
+  return Promise.all(catsPromises);
+};
+
 export const getCatImg = async (img) => {
   const storage = getStorage();
   return getDownloadURL(ref(storage, img))

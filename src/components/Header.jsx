@@ -1,11 +1,24 @@
-import { useContext } from "react";
-import { StyledHeaderDiv, StyledHeaderNav, StyledNavLink } from "../styled";
-import AuthContext from "./context/AuthContext";
-import { signOut } from "firebase/auth";
-import { auth } from "../../firebase";
+import { useEffect, useState } from "react";
+import { StyledHeaderDiv, StyledHeaderNav } from "../styled";
+import NavBar from "./NavBar";
+import SideBarButton from "./SideBarButton";
+import { getCatImg } from "../helpers/CatsHelpers";
+
+const initialWidth = window.innerWidth;
 
 const Header = () => {
-  const { currentUser } = useContext(AuthContext);
+  const [width, setWidth] = useState(initialWidth);
+  const [imgUrl, setImgUrl] = useState(null);
+  window.addEventListener("resize", () => setWidth(window.innerWidth));
+
+  useEffect(() => {
+    const getCatURL = async () => {
+      const headerImgUrl = await getCatImg("adoptmeHeader.jpg");
+      setImgUrl(headerImgUrl);
+    };
+
+    getCatURL();
+  }, []);
 
   return (
     <header>
@@ -13,66 +26,13 @@ const Header = () => {
         {/* trear img del header */}
         <img
           className="header-img"
-          src="/adoptmeHeader.jpg"
-          alt="Cat"
+          src={imgUrl}
+          alt="Logo"
           height="70px"
           width="70px"
         />
         <StyledHeaderNav>
-          <StyledNavLink
-            to="/cats"
-            className={({ isActive, isPending }) =>
-              isPending ? "pending" : isActive ? "active" : ""
-            }
-          >
-            Cats for adoption
-          </StyledNavLink>
-
-          <StyledNavLink
-            to="adopted"
-            className={({ isActive, isPending }) =>
-              isPending ? "pending" : isActive ? "active" : ""
-            }
-          >
-            Adopted
-          </StyledNavLink>
-          <StyledNavLink
-            to="about"
-            className={({ isActive, isPending }) =>
-              isPending ? "pending" : isActive ? "active" : ""
-            }
-          >
-            About Us
-          </StyledNavLink>
-
-          <StyledNavLink
-            to="contact"
-            className={({ isActive, isPending }) =>
-              isPending ? "pending" : isActive ? "active" : ""
-            }
-          >
-            Contact
-          </StyledNavLink>
-          {currentUser ? (
-            <StyledNavLink
-              to="/login"
-              onClick={() => signOut(auth)}
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-              }
-            >
-              Log Out
-            </StyledNavLink>
-          ) : (
-            <StyledNavLink
-              to="login"
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-              }
-            >
-              Log In
-            </StyledNavLink>
-          )}
+          {width > 950 ? <NavBar /> : <SideBarButton />}
         </StyledHeaderNav>
       </StyledHeaderDiv>
     </header>
