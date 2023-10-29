@@ -9,7 +9,9 @@ const RouteError = () => {
         height="150px"
         style={{ marginTop: "8rem" }}
       />
-      <StyledError style={{ marginTop: "10rem" }}>Error 404</StyledError>
+      <StyledError style={{ marginTop: "10rem" }}>
+        Error 404, no cats here!
+      </StyledError>
     </>
   );
 };

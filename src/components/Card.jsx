@@ -1,14 +1,18 @@
 /* eslint-disable react/prop-types */
 import { memo } from "react";
 import { StyledCard, Styledh4 } from "../styled";
+import { useNavigate } from "react-router-dom";
 
 const Card = memo(
   ({ id, title, location, subtitle, handleOnClick, img, isApplied }) => {
-    console.log(img);
+    const navigate = useNavigate();
+    const handleOnClickAlreadyApplied = () => {
+      navigate(`/myapplication/${title}`);
+    };
     if (isApplied) {
       return (
         <>
-          <StyledCard>
+          <StyledCard onClick={handleOnClickAlreadyApplied}>
             <img
               src={img || "/placeholderCat.webp"}
               alt={title}

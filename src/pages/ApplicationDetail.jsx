@@ -21,7 +21,6 @@ const ApplicationDetail = () => {
   const [cat, setCat] = useState(null);
   const navigate = useNavigate();
   const { name } = useParams();
-  console.log(applications, "apps");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,8 +41,7 @@ const ApplicationDetail = () => {
     if (!cat) return;
     deleteAdoptionForm(cat.name.toLowerCase(), currentUser.email);
     deleteApplication(cat.name.toLowerCase(), currentUser.email);
-
-    redirect("/myapplications");
+    navigate("/myapplications");
   };
 
   return (

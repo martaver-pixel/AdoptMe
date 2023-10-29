@@ -9,12 +9,10 @@ const useMyApplications = () => {
   const { applications, setApplications } = useContext(ApplicationContext);
   const [isLoading, setIsLoading] = useState(true);
   const { pathname } = useLocation();
-  console.log(pathname, "location la conch de tu madre ");
   useEffect(() => {
     const fetchData = async (user) => {
       try {
         const res = await getApplicationsByUser(user.email);
-        console.log(res, "res");
         setApplications(res);
         setIsLoading(false);
       } catch (err) {

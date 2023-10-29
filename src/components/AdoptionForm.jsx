@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useState } from "react";
 import {
   StyledError,
@@ -22,6 +22,7 @@ const AdoptionForm = ({ catName }) => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const { name } = useParams();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -30,7 +31,6 @@ const AdoptionForm = ({ catName }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "",
       experience: "",
       pets: [],
       otherPets: null,
@@ -51,6 +51,7 @@ const AdoptionForm = ({ catName }) => {
       await myApplication(dataWithName);
       reset();
       setSuccess(true);
+      navigate(`/myapplication/${name}`);
     } catch (err) {
       setError(true);
     } finally {
@@ -85,28 +86,6 @@ const AdoptionForm = ({ catName }) => {
     <Grid alignItems="center" justifyContent="center">
       <StyledForm onSubmit={handleSubmit(onSubmit)} noValidate>
         <Grid container spacing={2}>
-          <Grid container item spacing={1} xs={12}>
-            <Grid item xs={6}>
-              <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                {...register("name", {
-                  required: "Name is required",
-                  validate: {
-                    matchPattern: (v) => /^[A-Za-z\s]*$/.test(v),
-                  },
-                })}
-                placeholder="Luis Miguel"
-              />
-              <StyledFormValidationError>
-                {errors.name?.message}
-                {errors.name?.type === "matchPattern" && (
-                  <>Username must contain only letters and blank spaces</>
-                )}
-              </StyledFormValidationError>
-            </Grid>
-          </Grid>
-
           <Grid container item spacing={1} xs={12} direction="column">
             <h3>Tell us about you:</h3>
             <h4>Have you ever owned a cat before? </h4>

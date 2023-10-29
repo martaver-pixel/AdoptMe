@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import { StyledCards, StyledHomeTitle } from "../styled";
+import { StyledCards, StyledError, StyledHomeTitle } from "../styled";
 import { useContext, useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import ApplicationCard from "../components/ApplicationCard";
@@ -8,18 +8,32 @@ import { useNavigate } from "react-router-dom";
 import { getApplicationsByUser } from "../helpers/ApplicationsHelpers";
 import AuthContext from "../components/context/AuthContext";
 import useMyApplications from "../hooks/useMyApplications";
+import RouteError from "../components/RouteError";
 const MyApplications = () => {
   const navigate = useNavigate();
-
   const { applications, isLoading } = useMyApplications();
-
   if (isLoading) return <Loading />;
-  console.log(applications);
   const applicationsKeys = Object.keys(applications);
-
   const handleOnClick = (name) => {
     navigate(`/myapplication/${name}`);
   };
+  if (Object.keys(applications).length === 0)
+    return (
+      <>
+        <Grid container direction="row" justifyContent="left">
+          <StyledHomeTitle>My Applications:</StyledHomeTitle>
+          <Grid container item alignItems="center">
+            <img
+              src="../noApplicationsYet.png"
+              alt="No applications"
+              width="400px"
+            />
+            <StyledError>No applications yet!</StyledError>
+          </Grid>
+        </Grid>
+      </>
+    );
+
   return (
     <Grid container direction="column" justifyContent="left">
       <StyledHomeTitle>My Applications:</StyledHomeTitle>

@@ -10,7 +10,6 @@ const CatsForAdoption = () => {
   const navigate = useNavigate();
   const [cats, setCats] = useState(null);
   const { applications } = useContext(ApplicationContext);
-  console.log(applications, "app");
   useEffect(() => {
     const fetchData = async () => {
       const res = await getCats();

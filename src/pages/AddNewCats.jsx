@@ -37,7 +37,6 @@ const AddNewCats = () => {
     setIsLoading(true);
 
     try {
-      console.log(data);
       await AddNewCatsHelper(data);
       reset();
       setSuccess(true);
