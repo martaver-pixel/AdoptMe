@@ -98,7 +98,7 @@ const Contact = () => {
           })}
           cols="30"
           rows="10"
-          placeholder="I want a cat!"
+          placeholder="Message..."
         />
         <StyledFormValidationError>
           {errors.message?.message}

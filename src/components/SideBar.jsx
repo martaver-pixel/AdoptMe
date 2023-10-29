@@ -1,11 +1,15 @@
 import { useContext } from "react";
-import { StytledSideBarNavLinks, StytledSideBarWrapper } from "../styled";
+import {
+  StyledNavLink,
+  StytledSideBarNavLinks,
+  StytledSideBarWrapper,
+} from "../styled";
 import AuthContext from "./context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 
 const SideBar = ({ open }) => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, isAdmin } = useContext(AuthContext);
 
   return (
     <StytledSideBarWrapper $isOpen={open}>
@@ -43,14 +47,25 @@ const SideBar = ({ open }) => {
       >
         About Us
       </StytledSideBarNavLinks>
-      <StytledSideBarNavLinks
-        to="contact"
-        className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "active" : ""
-        }
-      >
-        Contact
-      </StytledSideBarNavLinks>
+      {currentUser && isAdmin ? (
+        <StytledSideBarNavLinks
+          to="addnewcats"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+        >
+          Add new cats
+        </StytledSideBarNavLinks>
+      ) : (
+        <StytledSideBarNavLinks
+          to="contact"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+        >
+          Contact
+        </StytledSideBarNavLinks>
+      )}
       {currentUser ? (
         <StytledSideBarNavLinks
           to="/login"

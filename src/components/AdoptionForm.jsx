@@ -12,15 +12,16 @@ import Grid from "@mui/material/Grid";
 import { myApplication, postAdoptionForm } from "../helpers/AdoptionHelper";
 import AuthContext from "./context/AuthContext";
 
-const AdoptionForm = () => {
+const AdoptionForm = ({ catName }) => {
   const { currentUser } = useContext(AuthContext);
   const [hasOtherPet, setHasOtherPet] = useState(false);
-  const { id } = useParams();
+
   const [hasOwnedBefore, setHasOwnedBefore] = useState(false);
   const [hasMorePets, setHasMorePets] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const { name } = useParams();
   const {
     register,
     handleSubmit,
@@ -30,7 +31,6 @@ const AdoptionForm = () => {
   } = useForm({
     defaultValues: {
       name: "",
-
       experience: "",
       pets: [],
       otherPets: null,
@@ -41,14 +41,14 @@ const AdoptionForm = () => {
     setIsLoading(true);
     const date = new Date();
     try {
-      const dataWithCatId = {
+      const dataWithName = {
         ...data,
-        catId: id,
+        catName: name,
         applicationUser: currentUser.email,
         dateOfApplication: date,
       };
-      await postAdoptionForm(dataWithCatId);
-      await myApplication(dataWithCatId);
+      await postAdoptionForm(dataWithName);
+      await myApplication(dataWithName);
       reset();
       setSuccess(true);
     } catch (err) {

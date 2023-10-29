@@ -5,7 +5,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 
 const NavBar = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, isAdmin } = useContext(AuthContext);
   return (
     <>
       <StyledNavLink
@@ -42,14 +42,26 @@ const NavBar = () => {
       >
         About Us
       </StyledNavLink>
-      <StyledNavLink
-        to="contact"
-        className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "active" : ""
-        }
-      >
-        Contact
-      </StyledNavLink>
+      {currentUser && isAdmin ? (
+        <StyledNavLink
+          to="addnewcats"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+        >
+          Add new cats
+        </StyledNavLink>
+      ) : (
+        <StyledNavLink
+          to="contact"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+        >
+          Contact
+        </StyledNavLink>
+      )}
+
       {currentUser ? (
         <StyledNavLink
           to="/login"

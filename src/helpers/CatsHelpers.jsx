@@ -1,4 +1,11 @@
-import { collection, doc, getDocs, getDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { db } from "../../firebase";
 
@@ -19,22 +26,24 @@ export const getCats = async () => {
   }
 };
 
-export const getCat = async (id) => {
-  const docRef = doc(db, "cats", id.toString());
-  const docSnap = await getDoc(docRef);
-  const cat = docSnap.data();
-  const imgURL = await getCatImg(cat.img);
-  const catWithImg = { ...cat, imgURL };
-  return catWithImg;
-};
-
-export const getCatsById = (ids) => {
-  const catsPromises = ids.map((id) => getCat(id));
-  return Promise.all(catsPromises);
+export const getCat = async (name) => {
+  const colRef = collection(db, "cats");
+  const catName = name.charAt(0).toUpperCase() + name.slice(1);
+  try {
+    const catWithName = query(colRef, where("name", "==", catName));
+    const docSnap = await getDocs(catWithName);
+    const cat = docSnap.docs[0].data();
+    const imgURL = await getCatImg(cat.img);
+    const catWithImg = { ...cat, imgURL };
+    return catWithImg;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const getCatImg = async (img) => {
   const storage = getStorage();
+  if (!img) return null;
   return getDownloadURL(ref(storage, img))
     .then((url) => url)
     .catch((error) => {

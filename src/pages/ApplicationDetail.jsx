@@ -1,23 +1,27 @@
 import { useState, useEffect, useContext } from "react";
 import { getCat } from "../helpers/CatsHelpers";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, redirect } from "react-router-dom";
 import Loading from "../components/Loading";
 import {
   StyledCatCard,
   StyledCatDetail,
   StyledCatDetailButton,
 } from "../styled";
-import Modal from "../components/Modal";
-import AdoptionForm from "../components/AdoptionForm";
-import AuthContext from "../components/context/AuthContext";
 
-const CatDetail = () => {
+import AuthContext from "../components/context/AuthContext";
+import ApplicationContext from "../components/context/ApplicationsContext";
+import {
+  deleteAdoptionForm,
+  deleteApplication,
+} from "../helpers/AdoptionHelper";
+
+const ApplicationDetail = () => {
   const { currentUser } = useContext(AuthContext);
-  const [isOpen, setIsOpen] = useState(false);
+  const { applications, setApplications } = useContext(ApplicationContext);
   const [cat, setCat] = useState(null);
   const navigate = useNavigate();
   const { name } = useParams();
-
+  console.log(applications, "apps");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,12 +38,12 @@ const CatDetail = () => {
     navigate(-1);
   };
 
-  const isLoggedCheck = () => {
-    if (!currentUser) {
-      navigate("AdoptMe/login");
-    } else {
-      setIsOpen(true);
-    }
+  const handleOnClickUnapply = () => {
+    if (!cat) return;
+    deleteAdoptionForm(cat.name.toLowerCase(), currentUser.email);
+    deleteApplication(cat.name.toLowerCase(), currentUser.email);
+
+    redirect("/myapplications");
   };
 
   return (
@@ -60,15 +64,12 @@ const CatDetail = () => {
         <StyledCatDetailButton onClick={handleOnClick}>
           &#x2190;Back
         </StyledCatDetailButton>
-        <StyledCatDetailButton $important="true" onClick={isLoggedCheck}>
-          Apply for adoption! &#127881;
+        <StyledCatDetailButton $important="true" onClick={handleOnClickUnapply}>
+          Unapply
         </StyledCatDetailButton>
-        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-          <AdoptionForm catName={name} />
-        </Modal>
       </div>
     </StyledCatDetail>
   );
 };
 
-export default CatDetail;
+export default ApplicationDetail;

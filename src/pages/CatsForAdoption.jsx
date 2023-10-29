@@ -1,31 +1,28 @@
 import { useContext, useEffect, useState } from "react";
-import { getCats, getCatImg } from "../helpers/CatsHelpers";
+import { getCats } from "../helpers/CatsHelpers";
 import { StyledCards, StyledHomeTitle } from "../styled";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import Loading from "../components/Loading";
-import { Grid } from "@mui/material";
-import ApplicationContext, {
-  ApplicationProvider,
-} from "../components/context/ApplicationsContext";
+import ApplicationContext from "../components/context/ApplicationsContext";
 
 const CatsForAdoption = () => {
   const navigate = useNavigate();
   const [cats, setCats] = useState(null);
   const { applications } = useContext(ApplicationContext);
-  console.log(applications);
-
+  console.log(applications, "app");
   useEffect(() => {
     const fetchData = async () => {
       const res = await getCats();
+
       setCats(res);
     };
 
     fetchData();
   }, []);
 
-  const handleOnClick = (id) => {
-    navigate(`/AdoptMe/cats/${id}`);
+  const handleOnClick = (name) => {
+    navigate(`/cats/${name}`);
   };
 
   return (
@@ -35,7 +32,7 @@ const CatsForAdoption = () => {
         {cats ? (
           cats.map((cat) => (
             <Card
-              handleOnClick={handleOnClick}
+              handleOnClick={() => handleOnClick(cat.name.toLowerCase())}
               key={cat.id}
               id={cat.id}
               title={cat.name}
@@ -44,7 +41,7 @@ const CatsForAdoption = () => {
               description={cat.description}
               location={cat.location}
               img={cat.imgURL}
-              isApplied={applications && !!applications[cat.id]}
+              isApplied={applications && !!applications[cat.name.toLowerCase()]}
             />
           ))
         ) : (
